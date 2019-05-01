@@ -3,7 +3,9 @@ const seq = require('sequelize');
 
 const Admin = db.defineModel('Admin', {
     username: seq.CHAR(255),
-    password: seq.CHAR(255)
+    password: seq.CHAR(255),
+    roles: seq.CHAR(255),
+    avatar: seq.CHAR(255)
 });
 
 // 导出模型对象

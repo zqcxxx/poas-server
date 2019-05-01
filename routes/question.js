@@ -17,4 +17,6 @@ router.get('/getoptions/:id', Question.getoptions);
 
 router.post('/editquestions', Question.editquestions);
 
+router.get('/getquestioncount', Question.getquestioncount);
+
 module.exports =  router

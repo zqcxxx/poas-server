@@ -38,7 +38,7 @@ const secret = 'poas_secret'
 app.use(jwt({
   secret,
 }).unless({
-  path: [ /\/login/],
+  path: [ /\/login/, /\/getinfo/],
 }))
 
 app.use(bodyparser({

@@ -15,11 +15,10 @@ exports.addquestions =  async ( ctx ) => {
         })
         let id = await Question.max('id')
         if(options){
-            let obj = JSON.parse(options)
-            for(let t of obj){
+            for(let t of options){
                 await Option.create({
                     question_id: id,
-                    option_value: t,
+                    option_value: t.value,
                     status: 0
                 })
             }
@@ -30,6 +29,7 @@ exports.addquestions =  async ( ctx ) => {
         }
         
     } catch (error) {
+        console.log(error)
         ctx.body = {
             status: 1,
             message:'添加失败，请重试'
@@ -141,6 +141,24 @@ exports.editquestions = async ( ctx ) => {
         ctx.body = {
             status: 1,
             message: '修改失败'
+        }
+    }
+}
+
+exports.getquestioncount = async (ctx) => {
+    try {
+        let count = await Question.count({
+            where: { status: 0}
+        })
+        ctx.body = {
+            status: 0,
+            message: '查询成功',
+            data: count
+        }
+    } catch (error) {
+        ctx.body = {
+            status: 1,
+            message: '查询失败',
         }
     }
 }

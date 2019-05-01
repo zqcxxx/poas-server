@@ -5,4 +5,6 @@ router.prefix('/admin')
 
 router.post('/login', Admin.login)
 
+router.get('/getinfo', Admin.getinfo)
+
 module.exports =  router

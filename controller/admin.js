@@ -18,24 +18,29 @@ exports.login = async ( ctx ) => {
     })
     if( querydata ){
         if(querydata.dataValues.password === postpwd){
+            let payload = {
+                username: postname,
+                admin: true
+            }
             ctx.body = {
-                status: '0',
+                status: 0,
                 message: '登陆成功',
-                token: jsonwebtoken.sign({
-                    data: postname,
+                token: jsonwebtoken.sign(
+                    payload,
+                    secret,
                     // 设置 token 过期时间
-                    exp: Math.floor(Date.now() / 1000) + (60 * 60), // 60 seconds * 60 minutes = 1 hour
-                }, secret),
+                    { expiresIn: '4h' }// 60 seconds * 60 minutes = 1 hour
+                ),
             }
         }else {
             ctx.body = {
-                status: '1',
+                status: 1,
                 message: '密码错误'
             }
         }
     }else {
         ctx.body = {
-            status: '1',
+            status: 1,
             message: '无此用户'
         }
     }
@@ -43,12 +48,21 @@ exports.login = async ( ctx ) => {
 
 exports.getinfo = async (ctx) => {
     try {
-        let params = ctx.request.params;
-        let token = params.token;
-        let data = await Admin.findOne({
-            where: { username : token}
+        let auth = ctx.request.header.authorization;
+        let token =  auth.split(' ')[1];
+        let decoded = jsonwebtoken.verify(token, secret);
+        let info = await Admin.findOne({
+            where: { username : decoded.username}
         })
+        ctx.body = {
+            status: 0,
+            message: '获取成功',
+            data: info
+        }
     } catch (error) {
-        
+        ctx.body = {
+            status: 1,
+            message: '获取失败',
+        }
     }
 }
