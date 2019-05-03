@@ -13,6 +13,7 @@ const index = require('./routes/index')
 const users = require('./routes/users')
 const admin = require('./routes/admin')
 const question = require('./routes/question')
+const option = require('./routes/option')
 
 //cors
 app.use(cors({
@@ -83,6 +84,7 @@ app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(admin.routes(), admin.allowedMethods())
 app.use(question.routes(), question.allowedMethods())
+app.use(option.routes(), option.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

@@ -1,12 +1,14 @@
-const router =  require('koa-router')();
+const router = require('koa-router')()
+const Option = require('../controller/option')
 
-router.prefix('/option');
+router.prefix('/option')
 
-router.post('/addoption', Option.addoption);
+router.post('/addoption', Option.addoption)
 
-router.get('/getoption/:id', Option.getoption);
+router.get('/getoption/:id', Option.getoption)
 
-router.get('/deloption/:id', Option.deloption);
+router.get('/deloption/:id', Option.deloption)
 
-router.post('/editoption', Option.editoption);
+router.post('/editoption', Option.editoption)
 
+module.exports = router

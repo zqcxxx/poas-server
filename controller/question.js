@@ -1,4 +1,3 @@
-const path = require('path')
 const Question = require('../data/model/question')
 const Option = require('../data/model/option')
 
@@ -123,13 +122,22 @@ exports.editquestions = async (ctx) => {
     editque.question_title = data.title
     editque.question_type = data.type
     editque.save()
-    let opt = JSON.parse(data.options)
+    // let opt = JSON.parse(data.options)
+    let opt = data.options
     for (let t of opt) {
-      let editopt = await Option.findOne({
-        where: { id: t.id }
-      })
-      editopt.option_value = t.values
-      editopt.save()
+      if (t.id) {
+        let editopt = await Option.findOne({
+          where: { id: t.id }
+        })
+        editopt.option_value = t.values
+        editopt.save()
+      } else {
+        await Option.create({
+          question_id: qid,
+          option_value: t.value,
+          status: 0
+        })
+      }
     }
     ctx.body = {
       status: 0,
@@ -138,7 +146,7 @@ exports.editquestions = async (ctx) => {
   } catch (error) {
     ctx.body = {
       status: 1,
-      message: '修改失败'
+      message: error
     }
   }
 }
