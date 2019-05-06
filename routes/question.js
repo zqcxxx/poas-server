@@ -19,4 +19,6 @@ router.post('/editquestions', Question.editquestions)
 
 router.get('/getquestioncount', Question.getquestioncount)
 
+router.get('/getallquestions', Question.getallquestions)
+
 module.exports = router

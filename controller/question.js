@@ -122,14 +122,13 @@ exports.editquestions = async (ctx) => {
     editque.question_title = data.title
     editque.question_type = data.type
     editque.save()
-    // let opt = JSON.parse(data.options)
     let opt = data.options
     for (let t of opt) {
       if (t.id) {
         let editopt = await Option.findOne({
           where: { id: t.id }
         })
-        editopt.option_value = t.values
+        editopt.option_value = t.value
         editopt.save()
       } else {
         await Option.create({
@@ -165,6 +164,28 @@ exports.getquestioncount = async (ctx) => {
     ctx.body = {
       status: 1,
       message: '查询失败'
+    }
+  }
+}
+
+exports.getallquestions = async (ctx) => {
+  try {
+    let arr = []
+    let ques = await Question.findAll({
+      where: { status: 0 }
+    })
+    for (let q of ques) {
+      arr.push(q.dataValues)
+    }
+    ctx.body = {
+      status: 0,
+      message: '查找成功',
+      data: arr
+    }
+  } catch (error) {
+    ctx.body = {
+      status: 1,
+      message: error
     }
   }
 }

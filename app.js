@@ -14,6 +14,7 @@ const users = require('./routes/users')
 const admin = require('./routes/admin')
 const question = require('./routes/question')
 const option = require('./routes/option')
+const survey = require('./routes/survey')
 
 //cors
 app.use(cors({
@@ -85,7 +86,7 @@ app.use(users.routes(), users.allowedMethods())
 app.use(admin.routes(), admin.allowedMethods())
 app.use(question.routes(), question.allowedMethods())
 app.use(option.routes(), option.allowedMethods())
-
+app.use(survey.routes(), survey.allowedMethods())
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
