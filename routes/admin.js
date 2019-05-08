@@ -7,4 +7,6 @@ router.post('/login', Admin.login)
 
 router.get('/getinfo', Admin.getinfo)
 
-module.exports =  router
+router.post('/logout', Admin.logout)
+
+module.exports = router

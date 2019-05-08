@@ -65,3 +65,17 @@ exports.getinfo = async (ctx) => {
     }
   }
 }
+
+exports.logout = async (ctx) => {
+  try {
+    ctx.body = {
+      status: 0,
+      message: '退出成功'
+    }
+  } catch (error) {
+    ctx.body = {
+      status: 1,
+      message: '退出失败'
+    }
+  }
+}

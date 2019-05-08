@@ -121,21 +121,24 @@ exports.editquestions = async (ctx) => {
     })
     editque.question_title = data.title
     editque.question_type = data.type
+    console.log(data.type === '2')
     editque.save()
-    let opt = data.options
-    for (let t of opt) {
-      if (t.id) {
-        let editopt = await Option.findOne({
-          where: { id: t.id }
-        })
-        editopt.option_value = t.value
-        editopt.save()
-      } else {
-        await Option.create({
-          question_id: qid,
-          option_value: t.value,
-          status: 0
-        })
+    if (data.type !== '2') {
+      let opt = data.options
+      for (let t of opt) {
+        if (t.id) {
+          let editopt = await Option.findOne({
+            where: { id: t.id }
+          })
+          editopt.option_value = t.value
+          editopt.save()
+        } else {
+          await Option.create({
+            question_id: qid,
+            option_value: t.value,
+            status: 0
+          })
+        }
       }
     }
     ctx.body = {
