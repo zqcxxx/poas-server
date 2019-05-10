@@ -13,7 +13,7 @@ exports.addquestions = async (ctx) => {
       status: 0
     })
     let id = await Question.max('id')
-    if (options) {
+    if (data.type !== '2') {
       for (let t of options) {
         await Option.create({
           question_id: id,
@@ -66,8 +66,10 @@ exports.getquestions = async (ctx) => {
     let data = await Question.findAll({
       offset: amount,
       limit: num,
-      where: { status: 0 }
+      where: { status: 0 },
+      order: [['id', 'DESC']]
     })
+    console.log('data', data)
     for (let t of data) {
       ary.push(t.dataValues)
     }

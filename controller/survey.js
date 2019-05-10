@@ -1,6 +1,7 @@
 const Survey = require('../data/model/survey')
 const Question = require('../data/model/question')
 const Option = require('../data/model/option')
+const Answer = require('../data/model/answer')
 
 exports.getsurveys = async (ctx) => {
   try {
@@ -12,7 +13,8 @@ exports.getsurveys = async (ctx) => {
     let data = await Survey.findAll({
       offset: ofs,
       limit: num,
-      where: { status: 0 }
+      where: { status: 0 },
+      order: [['id', 'DESC']]
     })
     for (let t of data) {
       ary.push(t.dataValues)
@@ -56,8 +58,10 @@ exports.addsurvey = async (ctx) => {
   try {
     let data = ctx.request.body
     let surtitle = data.title
+    // 将问题id拼接成字符串
     let qid = (data.questionid).join(',')
     let dl = data.deadline
+    // 创建问卷
     await Survey.create({
       survey_title: surtitle,
       ispublished: 1,
@@ -65,6 +69,35 @@ exports.addsurvey = async (ctx) => {
       deadline: dl,
       status: 0
     })
+    // 获取新建问卷id
+    let sid = await Survey.max('id')
+    // 创建问卷时同时将问卷问题、选项遍历存入Answer表中
+    for (let q of data.questionid) {
+      let que = await Question.findOne({
+        where: { id: q }
+      })
+      // 判断是否是填空题  0：单选 1：多选 2：填空
+      if (que.dataValues.question_type === 2) {
+        continue
+      }
+      let opt = await Option.findAll({
+        where: {
+          question_id: q,
+          status: 0
+        }
+      })
+      // 遍历选项，将sid、qid、oid存入Answer表
+      for (let o of opt) {
+        let odata = o.dataValues
+        await Answer.create({
+          survey_id: sid,
+          question_id: q,
+          option_value: odata.id,
+          pid: 0,
+          status: 0
+        })
+      }
+    }
     ctx.body = {
       status: 0,
       message: '添加成功'
