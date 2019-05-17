@@ -24,6 +24,7 @@ app.use(cors({
       return false
     }
     return 'http://localhost:9528'
+    // return 'http://localhost:8082'
   },
   exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
   maxAge: 5,

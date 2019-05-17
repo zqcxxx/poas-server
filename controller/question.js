@@ -1,18 +1,23 @@
 const Question = require('../data/model/question')
 const Option = require('../data/model/option')
 
+// 添加问题
 exports.addquestions = async (ctx) => {
   try {
+    // 获取问题信息
     let data = ctx.request.body
     let title = data.title
     let type = data.type
     let options = data.options
+    // 创建问题
     await Question.create({
       question_title: title,
       question_type: type,
       status: 0
     })
+    // 获取当前问题id
     let id = await Question.max('id')
+    // 判断是否为填空题
     if (data.type !== '2') {
       for (let t of options) {
         await Option.create({
@@ -114,10 +119,12 @@ exports.getoptions = async (ctx) => {
   }
 }
 
+// 编辑问题
 exports.editquestions = async (ctx) => {
   try {
     let data = ctx.request.body
     let qid = Number(data.id)
+    // 查找编辑的问题
     let editque = await Question.findOne({
       where: { id: qid }
     })
@@ -125,7 +132,9 @@ exports.editquestions = async (ctx) => {
     editque.question_type = data.type
     console.log(data.type === '2')
     editque.save()
+    // 判断是否为填空题
     if (data.type !== '2') {
+      // 对该问题的选项进行修改
       let opt = data.options
       for (let t of opt) {
         if (t.id) {

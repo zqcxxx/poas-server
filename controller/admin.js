@@ -5,6 +5,7 @@ const jsonwebtoken = require('jsonwebtoken')
 const Admin = require('../data/model/admin')
 const secret = 'poas_secret'
 
+// 登陆功能
 exports.login = async (ctx) => {
   let postData = ctx.request.body
   let postname = postData.username
@@ -28,7 +29,7 @@ exports.login = async (ctx) => {
           payload,
           secret,
           // 设置 token 过期时间
-          { expiresIn: '4h' }// 60 seconds * 60 minutes = 1 hour
+          { expiresIn: '4h' }
         )
       }
     } else {

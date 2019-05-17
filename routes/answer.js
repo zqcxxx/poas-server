@@ -5,4 +5,6 @@ router.prefix('/answer')
 
 router.post('/submitanswer', Answer.submitanswer)
 
+router.get('/getanswer/:id', Answer.getanswer)
+
 module.exports = router
