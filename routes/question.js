@@ -1,11 +1,7 @@
 const router = require('koa-router')()
 const Question = require('../controller/question')
 
-router.prefix('/question')
-
-router.get('/', async (ctx) => {
-  ctx.body = 'this is question router test'
-})
+router.prefix('/api/question')
 
 router.post('/addquestions', Question.addquestions)
 

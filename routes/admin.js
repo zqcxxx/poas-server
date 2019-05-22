@@ -1,7 +1,7 @@
 const router = require('koa-router')()
 const Admin = require('../controller/admin')
 
-router.prefix('/admin')
+router.prefix('/api/admin')
 
 router.post('/login', Admin.login)
 

@@ -1,7 +1,7 @@
 const router = require('koa-router')()
 const Answer = require('../controller/answer')
 
-router.prefix('/answer')
+router.prefix('/api/answer')
 
 router.post('/submitanswer', Answer.submitanswer)
 

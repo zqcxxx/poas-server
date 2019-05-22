@@ -23,7 +23,8 @@ app.use(cors({
     if (ctx.url === '/test') {
       return false
     }
-    return 'http://localhost:9528'
+    return '*'
+    // return 'http://localhost:9528'
     // return 'http://localhost:8082'
   },
   exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
