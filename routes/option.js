@@ -1,7 +1,7 @@
 const router = require('koa-router')()
 const Option = require('../controller/option')
 
-router.prefix('/api/option')
+router.prefix('/option')
 
 router.post('/addoption', Option.addoption)
 
