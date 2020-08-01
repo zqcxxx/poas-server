@@ -2,7 +2,7 @@ const router = require('koa-router')()
 
 const Survey = require('../controller/survey')
 
-router.prefix('/api/survey')
+router.prefix('/survey')
 
 router.get('/getsurveys/:pg/:num', Survey.getsurveys)
 
